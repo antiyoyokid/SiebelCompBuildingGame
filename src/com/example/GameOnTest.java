@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 public class GameOnTest {
@@ -15,7 +17,7 @@ public class GameOnTest {
         siebelMap = URLget.makeApiRequest(url);
     }
 
-    @Test
+   @Test
     public void startingRoom() {
         assertEquals("MatthewsStreet", siebelMap.getStartingRoom());
     }
@@ -54,5 +56,15 @@ public class GameOnTest {
     public void roomInDirection() {
         assertEquals("SiebelNorthHallway", siebelMap.getRooms()[4].getDirections()[0].getRoom());
     }
+
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void invalidRoom() {
+        assertEquals(18, siebelMap.getRooms()[121212]);
+    }
+
+
+
+
+
 
 }
