@@ -21,7 +21,7 @@ import java.net.URL;
 /**
  * Created by zilles on 9/19/17.
  */
-public class Adventure {
+public class URLget {
 
 
     private static final int STATUS_OK = 200;
@@ -48,7 +48,7 @@ public class Adventure {
         final HttpResponse<String> stringHttpResponse;
 
         // This will throw MalformedURLException if the url is malformed.
-        new URL(url);
+        new java.net.URL(url);
 
         stringHttpResponse = Unirest.get(url).asString();
         // Check to see if the request was successful; if so, convert the payload JSON into Java objects

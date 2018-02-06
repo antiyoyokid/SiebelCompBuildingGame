@@ -24,7 +24,6 @@ public class Room {
 
 
     public ArrayList<String> getItems() {
-
         return items;
     }
 

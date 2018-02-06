@@ -4,11 +4,9 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
-
-import static com.sun.jmx.snmp.ThreadContext.contains;
 //https://courses.engr.illinois.edu/cs126/adventure/siebel.json
 
-public class Main {
+public class GameOn {
     static final String url = userInput.website();
     static Layout currentLayout;
     private static ArrayList<String> itemsCarried = new ArrayList<String>();
@@ -16,7 +14,7 @@ public class Main {
 
     static {
         try {
-            currentLayout = Adventure.makeApiRequest(url);
+            currentLayout = URLget.makeApiRequest(url);
         } catch (UnirestException e) {
             e.printStackTrace();
         } catch (MalformedURLException e) {
@@ -26,7 +24,7 @@ public class Main {
 
     static Room currentRoom = findStartingRoom();
 
-    public Main() throws MalformedURLException, UnirestException {
+    public GameOn() throws MalformedURLException, UnirestException {
     }
 
     public static void main(String[] args) {

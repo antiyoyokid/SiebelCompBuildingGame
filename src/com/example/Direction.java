@@ -13,7 +13,7 @@ public class Direction {
     }
 
     public Room getRoomAsRoom(String room) {
-        for (Room findMe: Main.currentLayout.getRooms()){
+        for (Room findMe: GameOn.currentLayout.getRooms()){
             if(findMe.getName().equalsIgnoreCase(getRoom())){
                 return findMe;
             }
