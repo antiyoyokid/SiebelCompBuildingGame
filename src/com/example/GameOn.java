@@ -93,34 +93,33 @@ public class GameOn {
         */
         String input = userInput.playerInput();
         String firstTerm = null;
+        String secondTerm = null;
 
         /*
         If the input has two words,then I seperate the two words to check for take/drop items
          */
         if (input.contains(" ")) {
             firstTerm = input.split("\\s+")[0];
-            String secondTerm = input.split("\\s+")[1];
+            secondTerm = input.split("\\s+")[1];
 
         }
 
 
-
-        boolean isOkay = true;
-
+        /*
+        Code that chooses what Direction to Go
+         */
+        boolean ifItemExists = true;
         if(input.contains("go".toLowerCase()) ) {
             for (Direction direction : current.getDirections()) {
 
                 if (input.contains("go " + direction.getDirectionName().toLowerCase())) {
                     currentRoom = direction.getRoomAsRoom(direction.getRoom());
-                    isOkay = false;
+                    ifItemExists = false;
                 }
             }
-            if(isOkay) {
-                System.out.println("Invalid Room. Try again please");
+            if(ifItemExists) {
+                System.out.println("You can't go  " + secondTerm + " direction");
             }
-
-
-
             }
 
 
@@ -149,7 +148,7 @@ public class GameOn {
         Catches bad inputs as they don't enter any if statements
          */
         else {
-            System.out.println( "Invalid Input");
+            System.out.println( "Invalid input");
         }
         System.out.println("You are carrying" + itemsCarried);
 
