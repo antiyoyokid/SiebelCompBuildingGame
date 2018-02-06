@@ -28,9 +28,12 @@ public class Main {
     }
 
     public static void main(String[] args) {
+
         while (currentRoom != findEndingRoom()) {
             roomStatus(currentRoom);
+
              }
+
       System.out.print("You finished!");
     }
 
@@ -55,7 +58,6 @@ public class Main {
 
 
     private static void roomStatus(Room current) {
-
         System.out.println(current.getDescription());
 
 
@@ -81,6 +83,7 @@ public class Main {
         }
 
         String input = userInput.playerInput().toLowerCase();
+
         if(input.contains("east")) {
 
             for (Direction direction : current.getDirections()) {
@@ -157,6 +160,8 @@ public class Main {
             }
 
         }
+
+
         System.out.println(itemsCarried);
 
     }
