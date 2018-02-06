@@ -59,6 +59,8 @@ public class Main {
 
 
     private static void roomStatus(Room current) {
+
+
         System.out.println(current.getDescription());
 
 
@@ -84,8 +86,11 @@ public class Main {
         }
 
         String input = userInput.playerInput().toLowerCase();
-        String secondTerm = input.toLowerCase().trim().split("\\s+")[1];
         String firstTerm = input.toLowerCase().trim().split("\\s+")[0];
+        String secondTerm = input.toLowerCase().trim().split("\\s+")[1];
+
+
+
 
 
         if (input.contains("east")) {
@@ -163,7 +168,7 @@ public class Main {
             }
 
         }
-        if (current.getItems() == null) {
+        if (current.getItems() == null || !itemsCarried.contains(secondTerm) || itemsCarried == null) {
             System.out.println("You cannot drop item here");
         } else if (itemsCarried != null && itemsCarried.contains(secondTerm) && firstTerm.equalsIgnoreCase("drop")) {
             for (int i = 0; i < itemsCarried.size(); i++) {
