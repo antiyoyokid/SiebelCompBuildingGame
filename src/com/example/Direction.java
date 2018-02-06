@@ -11,4 +11,14 @@ public class Direction {
     public String getRoom() {
         return room;
     }
+
+    public Room getRoomAsRoom(String room) {
+        for (Room findMe: Main.currentLayout.getRooms()){
+            if(findMe.getName().equalsIgnoreCase(getRoom())){
+                return findMe;
+            }
+        }
+
+    return null;
+    }
 }

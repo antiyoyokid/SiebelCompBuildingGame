@@ -22,9 +22,6 @@ import java.net.URL;
  * Created by zilles on 9/19/17.
  */
 public class Adventure {
-    public static Layout layout;
-
-
 
 
     private static final int STATUS_OK = 200;
@@ -44,14 +41,10 @@ public class Adventure {
         }
 
 
+    }
 
-        }
-
-
-
-
-
-    static void makeApiRequest(String url) throws UnirestException, MalformedURLException {
+    public static Layout makeApiRequest(String url) throws UnirestException, MalformedURLException {
+        Layout layout;
         final HttpResponse<String> stringHttpResponse;
 
         // This will throw MalformedURLException if the url is malformed.
@@ -63,28 +56,8 @@ public class Adventure {
             String json = stringHttpResponse.getBody();
             Gson gson = new Gson();
             layout = gson.fromJson(json, Layout.class);
-            System.out.println(layout.getEndingRoom());
-        }
-        Room currentRoom = Adventure.layout.getRooms()[0];
-
-        if(currentRoom.getName().equalsIgnoreCase(Adventure.layout.getStartingRoom())) {
-            System.out.println(currentRoom.getDescription());
-            System.out.println("Your journey begins here");
-
-        }
-        if(currentRoom.getName().equalsIgnoreCase((Adventure.layout.getEndingRoom()))) {
-            System.out.println(currentRoom.getDescription());
-            System.out.println("You have reached your final destination");
-        }
-
-        for(String items: currentRoom.getItems()) {
-            System.out.println(items);
-        }
-        for(Direction directions: currentRoom.getDirections()){
-            System.out.print(directions.getDirectionName());
-        }
+            return layout;
+        } else return null;
     }
 
-
-
-    }
+}
