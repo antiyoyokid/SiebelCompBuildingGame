@@ -22,6 +22,7 @@ public class Main {
             e.printStackTrace();
         }
     }
+
     static Room currentRoom = findStartingRoom();
 
     public Main() throws MalformedURLException, UnirestException {
@@ -32,9 +33,9 @@ public class Main {
         while (currentRoom != findEndingRoom()) {
             roomStatus(currentRoom);
 
-             }
+        }
 
-      System.out.print("You finished!");
+        System.out.print("You finished!");
     }
 
 
@@ -70,7 +71,7 @@ public class Main {
             System.out.println("You have reached your final destination");
         }
 
-        if(current.getItems() != null ) {
+        if (current.getItems() != null) {
             for (String items : current.getItems()) {
 
                 System.out.println("You can take: " + items);
@@ -83,8 +84,11 @@ public class Main {
         }
 
         String input = userInput.playerInput().toLowerCase();
+        String secondTerm = input.toLowerCase().trim().split("\\s+")[1];
+        String firstTerm = input.toLowerCase().trim().split("\\s+")[0];
 
-        if(input.contains("east")) {
+
+        if (input.contains("east")) {
 
             for (Direction direction : current.getDirections()) {
                 if ("East".contains(direction.getDirectionName())) {
@@ -93,7 +97,7 @@ public class Main {
             }
 
         }
-        if(input.contains("west")) {
+        if (input.contains("west")) {
 
             for (Direction direction : current.getDirections()) {
                 if ("West".contains(direction.getDirectionName())) {
@@ -102,7 +106,7 @@ public class Main {
             }
 
         }
-        if(input.contains("south")) {
+        if (input.contains("south")) {
 
             for (Direction direction : current.getDirections()) {
                 if ("South".contains(direction.getDirectionName())) {
@@ -111,7 +115,7 @@ public class Main {
             }
 
         }
-        if(input.contains("up")) {
+        if (input.contains("up")) {
 
             for (Direction direction : current.getDirections()) {
                 if ("Up".contains(direction.getDirectionName())) {
@@ -120,7 +124,7 @@ public class Main {
             }
 
         }
-        if(input.contains("north")) {
+        if (input.contains("north")) {
 
             for (Direction direction : current.getDirections()) {
                 if ("North".contains(direction.getDirectionName())) {
@@ -129,7 +133,7 @@ public class Main {
             }
 
         }
-        if(input.contains("northeast")) {
+        if (input.contains("northeast")) {
 
             for (Direction direction : current.getDirections()) {
                 if ("NorthEast".contains(direction.getDirectionName())) {
@@ -138,7 +142,7 @@ public class Main {
             }
 
         }
-        if(input.contains("down")) {
+        if (input.contains("down")) {
 
             for (Direction direction : current.getDirections()) {
                 if ("Down".contains(direction.getDirectionName())) {
@@ -149,12 +153,23 @@ public class Main {
         }
 
 
-        if(current.getItems()!= null && current.getItems().contains(input)) {
-
-            for (int i =0; i < current.getItems().size(); i++) {
-                if(input.contains(current.getItems().get(i))){
+        if (current.getItems() != null && current.getItems().contains(secondTerm) && firstTerm.equalsIgnoreCase("take")) {
+            for (int i = 0; i < current.getItems().size(); i++) {
+                if (input.contains(current.getItems().get(i))) {
                     itemsCarried.add(current.getItems().get(i));
                     current.getItems().remove(i);
+                    currentRoom = current;
+                }
+            }
+
+        }
+        if (current.getItems() == null) {
+            System.out.println("You cannot drop item here");
+        } else if (itemsCarried != null && itemsCarried.contains(secondTerm) && firstTerm.equalsIgnoreCase("drop")) {
+            for (int i = 0; i < itemsCarried.size(); i++) {
+                if (input.contains(itemsCarried.get(i))) {
+                    current.getItems().add(itemsCarried.get(i));
+                    itemsCarried.remove(i);
                     currentRoom = current;
                 }
             }
@@ -166,6 +181,7 @@ public class Main {
 
     }
 }
+
 
 
 
