@@ -1,9 +1,9 @@
 package com.example;
 
-import com.mashape.unirest.http.exceptions.UnirestException;
+        import com.mashape.unirest.http.exceptions.UnirestException;
 
-import java.net.MalformedURLException;
-import java.util.ArrayList;
+        import java.net.MalformedURLException;
+        import java.util.ArrayList;
 //https://courses.engr.illinois.edu/cs126/adventure/siebel.json
 
 public class GameOn {
@@ -114,6 +114,7 @@ public class GameOn {
          */
         boolean ifDirectionExists = true;
         boolean ifItemExists  = true;
+        boolean ifItemCanBeDropped = true;
         if(input.contains("go".toLowerCase()) ) {
             for (Direction direction : current.getDirections()) {
 
@@ -143,15 +144,18 @@ public class GameOn {
                 }
             }
 
-        } else if (current.getItems() != null && itemsCarried != null && firstTerm.contains("drop") && itemsCarried.contains(secondTerm)) {
+        } else if (current.getItems() != null && itemsCarried != null && firstTerm.contains("drop")) {
             for (int i = 0; i < itemsCarried.size(); i++) {
-                if (input.contains("drop " + itemsCarried.get(i))) {
+                if (input.equalsIgnoreCase("drop " + itemsCarried.get(i))) {
                     current.getItems().add(itemsCarried.get(i));
                     itemsCarried.remove(i);
                     currentRoom = current;
+                    ifItemCanBeDropped = false;
                 }
             }
-
+            if(ifItemCanBeDropped) {
+                System.out.println("Item can't be picked");
+            }
         }
         /*
         Catches bad inputs as they don't enter any if statements
