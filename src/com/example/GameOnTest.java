@@ -4,12 +4,14 @@ import com.google.gson.Gson;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.List;
 
 import static org.junit.Assert.*;
 
 public class GameOnTest {
-    String url = "https://courses.engr.illinois.edu/cs126/adventure/siebel.json";
+    String url = "https://courses.engr.illinois.edu/cs126/adventure/siebel.json ";
     Layout siebelMap;
 
     @Before
@@ -61,6 +63,9 @@ public class GameOnTest {
     public void invalidRoom() {
         assertEquals(18, siebelMap.getRooms()[121212]);
     }
+
+
+
 
 
 
