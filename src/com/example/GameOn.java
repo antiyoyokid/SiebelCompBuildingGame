@@ -113,6 +113,7 @@ public class GameOn {
         Code that chooses what Direction to Go
          */
         boolean ifDirectionExists = true;
+        boolean ifItemExists  = true;
         if(input.contains("go".toLowerCase()) ) {
             for (Direction direction : current.getDirections()) {
 
@@ -129,12 +130,16 @@ public class GameOn {
 
 
 
-        else if (firstTerm.contains("take") && current.getItems().contains(secondTerm)) {
+        else if (firstTerm.contains("take")) {
             for (int i = 0; i < current.getItems().size(); i++) {
-                if (input.contains("take " + current.getItems().get(i))) {
+                if (input.equalsIgnoreCase("take " + current.getItems().get(i))) {
                     itemsCarried.add(current.getItems().get(i));
                     current.getItems().remove(i);
                     currentRoom = current;
+                    ifItemExists = false;
+                }
+                if(ifItemExists) {
+                    System.out.println ("Item doesn't exist");
                 }
             }
 
