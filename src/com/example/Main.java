@@ -6,9 +6,10 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 import static com.sun.jmx.snmp.ThreadContext.contains;
+//https://courses.engr.illinois.edu/cs126/adventure/siebel.json
 
 public class Main {
-    static final String url = "https://courses.engr.illinois.edu/cs126/adventure/siebel.json";
+    static final String url = userInput.website();
     static Layout currentLayout;
     private static ArrayList<String> itemsCarried = new ArrayList<String>();
 
@@ -85,11 +86,17 @@ public class Main {
             System.out.println("From here you can go: " + directions.getDirectionName());
         }
 
-        String input = userInput.playerInput().toLowerCase();
-        String firstTerm = input;
-        String secondTerm = input;
-        //String firstTerm = input.toLowerCase().trim().split("\\s+")[0];
-        //String secondTerm = input.toLowerCase().trim().split("\\s+")[1];
+        String input = userInput.playerInput();
+        String firstTerm = null;
+        String secondTerm = null;
+
+    if(input.contains(" ")) {
+         firstTerm = input.split("\\s+")[0];
+         secondTerm = input.split("\\s+")[1];
+    }
+
+
+
 
 
         if (input.contains("go east")) {
@@ -100,7 +107,8 @@ public class Main {
                 }
             }
 
-        } else if (input.contains("west")) {
+        }
+        else if (input.contains("go west")) {
 
             for (Direction direction : current.getDirections()) {
                 if ("West".contains(direction.getDirectionName())) {
@@ -108,7 +116,8 @@ public class Main {
                 }
             }
 
-        } else if (input.contains("south")) {
+        }
+       else if (input.contains("go south")) {
 
             for (Direction direction : current.getDirections()) {
                 if ("South".contains(direction.getDirectionName())) {
@@ -116,7 +125,8 @@ public class Main {
                 }
             }
 
-        } else if (input.contains("up")) {
+        }
+        else if (input.contains("go up")) {
 
             for (Direction direction : current.getDirections()) {
                 if ("Up".contains(direction.getDirectionName())) {
@@ -124,7 +134,8 @@ public class Main {
                 }
             }
 
-        } else if (input.contains("north")) {
+        }
+       else if (input.contains("go north") && !input.contains("east")) {
 
             for (Direction direction : current.getDirections()) {
                 if ("North".contains(direction.getDirectionName())) {
@@ -132,7 +143,8 @@ public class Main {
                 }
             }
 
-        } else if (input.contains("northeast")) {
+        }
+       else if (input.contains("go northeast")) {
 
             for (Direction direction : current.getDirections()) {
                 if ("NorthEast".contains(direction.getDirectionName())) {
@@ -140,7 +152,8 @@ public class Main {
                 }
             }
 
-        } else if (input.contains("down")) {
+        }
+       else if (input.contains("down")) {
 
             for (Direction direction : current.getDirections()) {
                 if ("Down".contains(direction.getDirectionName())) {
@@ -148,7 +161,10 @@ public class Main {
                 }
             }
 
-        } else if (current.getItems() != null && current.getItems().contains(secondTerm) && firstTerm.equalsIgnoreCase("take")) {
+        }
+
+
+       else if (current.getItems() != null && current.getItems().contains(secondTerm) && firstTerm.equalsIgnoreCase("take")) {
             for (int i = 0; i < current.getItems().size(); i++) {
                 if (input.contains(current.getItems().get(i))) {
                     itemsCarried.add(current.getItems().get(i));
@@ -157,7 +173,9 @@ public class Main {
                 }
             }
 
-        } else if (itemsCarried != null && itemsCarried.contains(secondTerm) && firstTerm.equalsIgnoreCase("drop")) {
+        }
+
+         else if (current.getItems() != null && itemsCarried != null && itemsCarried.contains(secondTerm) && firstTerm.equalsIgnoreCase("drop")) {
             for (int i = 0; i < itemsCarried.size(); i++) {
                 if (input.contains(itemsCarried.get(i))) {
                     current.getItems().add(itemsCarried.get(i));
@@ -166,22 +184,12 @@ public class Main {
                 }
             }
 
-        } else {
-            System.out.println("Bad Input");
+        }
+        else {
+            System.out.println("This is a bad input. Try again");
         }
 
-
-        System.out.println("You are currently carrying " + itemsCarried);
+        System.out.println(itemsCarried);
 
     }
 }
-
-
-
-
-
-
-
-
-
-
