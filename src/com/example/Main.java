@@ -86,14 +86,13 @@ public class Main {
         }
 
         String input = userInput.playerInput().toLowerCase();
-        String firstTerm = input.toLowerCase().trim().split("\\s+")[0];
-        String secondTerm = input.toLowerCase().trim().split("\\s+")[1];
+        String firstTerm = input;
+        String secondTerm = input;
+        //String firstTerm = input.toLowerCase().trim().split("\\s+")[0];
+        //String secondTerm = input.toLowerCase().trim().split("\\s+")[1];
 
 
-
-
-
-        if (input.contains("east")) {
+        if (input.contains("go east")) {
 
             for (Direction direction : current.getDirections()) {
                 if ("East".contains(direction.getDirectionName())) {
@@ -101,8 +100,7 @@ public class Main {
                 }
             }
 
-        }
-        if (input.contains("west")) {
+        } else if (input.contains("west")) {
 
             for (Direction direction : current.getDirections()) {
                 if ("West".contains(direction.getDirectionName())) {
@@ -110,8 +108,7 @@ public class Main {
                 }
             }
 
-        }
-        if (input.contains("south")) {
+        } else if (input.contains("south")) {
 
             for (Direction direction : current.getDirections()) {
                 if ("South".contains(direction.getDirectionName())) {
@@ -119,8 +116,7 @@ public class Main {
                 }
             }
 
-        }
-        if (input.contains("up")) {
+        } else if (input.contains("up")) {
 
             for (Direction direction : current.getDirections()) {
                 if ("Up".contains(direction.getDirectionName())) {
@@ -128,8 +124,7 @@ public class Main {
                 }
             }
 
-        }
-        if (input.contains("north")) {
+        } else if (input.contains("north")) {
 
             for (Direction direction : current.getDirections()) {
                 if ("North".contains(direction.getDirectionName())) {
@@ -137,8 +132,7 @@ public class Main {
                 }
             }
 
-        }
-        if (input.contains("northeast")) {
+        } else if (input.contains("northeast")) {
 
             for (Direction direction : current.getDirections()) {
                 if ("NorthEast".contains(direction.getDirectionName())) {
@@ -146,8 +140,7 @@ public class Main {
                 }
             }
 
-        }
-        if (input.contains("down")) {
+        } else if (input.contains("down")) {
 
             for (Direction direction : current.getDirections()) {
                 if ("Down".contains(direction.getDirectionName())) {
@@ -155,10 +148,7 @@ public class Main {
                 }
             }
 
-        }
-
-
-        if (current.getItems() != null && current.getItems().contains(secondTerm) && firstTerm.equalsIgnoreCase("take")) {
+        } else if (current.getItems() != null && current.getItems().contains(secondTerm) && firstTerm.equalsIgnoreCase("take")) {
             for (int i = 0; i < current.getItems().size(); i++) {
                 if (input.contains(current.getItems().get(i))) {
                     itemsCarried.add(current.getItems().get(i));
@@ -167,9 +157,6 @@ public class Main {
                 }
             }
 
-        }
-        if (current.getItems() == null || !itemsCarried.contains(secondTerm) || itemsCarried == null) {
-            System.out.println("You cannot drop item here");
         } else if (itemsCarried != null && itemsCarried.contains(secondTerm) && firstTerm.equalsIgnoreCase("drop")) {
             for (int i = 0; i < itemsCarried.size(); i++) {
                 if (input.contains(itemsCarried.get(i))) {
@@ -179,10 +166,12 @@ public class Main {
                 }
             }
 
+        } else {
+            System.out.println("Bad Input");
         }
 
 
-        System.out.println(itemsCarried);
+        System.out.println("You are currently carrying " + itemsCarried);
 
     }
 }
