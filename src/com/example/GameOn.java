@@ -93,40 +93,37 @@ public class GameOn {
         */
         String input = userInput.playerInput();
         String firstTerm = null;
-        String secondTerm = null;
+
         /*
         If the input has two words,then I seperate the two words to check for take/drop items
          */
         if (input.contains(" ")) {
             firstTerm = input.split("\\s+")[0];
-            secondTerm = input.split("\\s+")[1];
+
         }
         if(input.contains("go".toLowerCase())) {
             for (Direction direction : current.getDirections()) {
                 if (input.contains("go " + direction.getDirectionName().toLowerCase())) {
                     currentRoom = direction.getRoomAsRoom(direction.getRoom());
                 }
-                else {
-                    System.out.println("Enter valid direction");
-                    break;
-                }
+
             }
 
         }
 
 
-      else if (current.getItems() != null && current.getItems().contains(secondTerm) && firstTerm.equalsIgnoreCase("take")) {
+      else if (current.getItems() != null && input.contains("take")) {
             for (int i = 0; i < current.getItems().size(); i++) {
-                if (input.contains(current.getItems().get(i))) {
+                if (input.contains("take " + current.getItems().get(i))) {
                     itemsCarried.add(current.getItems().get(i));
                     current.getItems().remove(i);
                     currentRoom = current;
                 }
             }
 
-        } else if (current.getItems() != null && itemsCarried != null && itemsCarried.contains(secondTerm) && firstTerm.equalsIgnoreCase("drop")) {
+        } else if (current.getItems() != null && itemsCarried != null && input.contains("drop")) {
             for (int i = 0; i < itemsCarried.size(); i++) {
-                if (input.contains(itemsCarried.get(i))) {
+                if (input.contains("drop " + itemsCarried.get(i))) {
                     current.getItems().add(itemsCarried.get(i));
                     itemsCarried.remove(i);
                     currentRoom = current;
@@ -140,7 +137,7 @@ public class GameOn {
         else {
             System.out.println( "Invalid Input");
         }
-        System.out.println(itemsCarried);
+        System.out.println("You are carrying" + itemsCarried);
 
     }
 }
