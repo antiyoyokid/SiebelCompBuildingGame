@@ -103,9 +103,6 @@ public class GameOn {
         if (input.contains(" " )) {
             firstTerm = input.split("\\s+")[0];
             secondTerm = input.split("\\s+")[1];
-
-
-
         }
 
 
@@ -115,6 +112,7 @@ public class GameOn {
         boolean ifDirectionExists = true;
         boolean ifItemExists  = true;
         boolean ifItemCanBeDropped = true;
+
         if(input.contains("go".toLowerCase()) ) {
             for (Direction direction : current.getDirections()) {
 
@@ -126,12 +124,7 @@ public class GameOn {
             if(ifDirectionExists) {
                 System.out.println("You can't go  " + secondTerm + " direction");
             }
-        }
-
-
-
-
-        else if (firstTerm.contains("take")) {
+        } else if (firstTerm.contains("take")) {
             for (int i = 0; i < current.getItems().size(); i++) {
                 if (input.equalsIgnoreCase("take " + current.getItems().get(i))) {
                     itemsCarried.add(current.getItems().get(i));
@@ -140,7 +133,7 @@ public class GameOn {
                     ifItemExists = false;
                 }
                 if(ifItemExists) {
-                    System.out.println ("Item doesn't exist");
+                    System.out.println ("");
                 }
             }
 
