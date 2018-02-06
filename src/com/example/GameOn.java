@@ -99,20 +99,34 @@ public class GameOn {
          */
         if (input.contains(" ")) {
             firstTerm = input.split("\\s+")[0];
+            String secondTerm = input.split("\\s+")[1];
 
         }
-        if(input.contains("go".toLowerCase())) {
+
+
+
+        boolean isOkay = true;
+
+        if(input.contains("go".toLowerCase()) ) {
             for (Direction direction : current.getDirections()) {
+
                 if (input.contains("go " + direction.getDirectionName().toLowerCase())) {
                     currentRoom = direction.getRoomAsRoom(direction.getRoom());
+                    isOkay = false;
                 }
+            }
+            if(isOkay) {
+                System.out.println("Invalid Room. Try again please");
+            }
+
+
 
             }
 
-        }
 
 
-      else if (current.getItems() != null && input.contains("take")) {
+
+      else if (current.getItems() != null && input.contains("take") && current.getItems().contains(firstTerm)) {
             for (int i = 0; i < current.getItems().size(); i++) {
                 if (input.contains("take " + current.getItems().get(i))) {
                     itemsCarried.add(current.getItems().get(i));
@@ -121,7 +135,7 @@ public class GameOn {
                 }
             }
 
-        } else if (current.getItems() != null && itemsCarried != null && input.contains("drop")) {
+        } else if (current.getItems() != null && itemsCarried != null && input.contains("drop")&& itemsCarried.contains(firstTerm)) {
             for (int i = 0; i < itemsCarried.size(); i++) {
                 if (input.contains("drop " + itemsCarried.get(i))) {
                     current.getItems().add(itemsCarried.get(i));
