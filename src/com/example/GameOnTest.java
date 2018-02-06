@@ -29,4 +29,24 @@ public class GameOnTest {
     public void rooms() {
         assertEquals("SiebelEntry", siebelMap.getRooms()[1].getName());
     }
+
+    @Test
+    public void roomDescription() {
+        assertEquals("You are in Siebel 1112.  There is space for two code reviews in this room.", siebelMap.getRooms()[4].getDescription());
+    }
+
+    @Test
+    public void roomItems() {
+        assertEquals(null, siebelMap.getRooms()[3].getItems());
+    }
+
+    @Test
+    public void roomItems1() {
+        assertEquals("bagel", siebelMap.getRooms()[5].getItems().get(0));
+    }
+
+    @Test
+    public void roomDirections() {
+        assertEquals("West", siebelMap.getRooms()[5].getDirections()[0].getDirectionName());
+    }
 }
