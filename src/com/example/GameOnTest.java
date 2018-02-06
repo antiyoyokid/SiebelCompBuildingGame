@@ -49,4 +49,10 @@ public class GameOnTest {
     public void roomDirections() {
         assertEquals("West", siebelMap.getRooms()[5].getDirections()[0].getDirectionName());
     }
+
+    @Test
+    public void roomInDirection() {
+        assertEquals("SiebelNorthHallway", siebelMap.getRooms()[4].getDirections()[0].getRoom());
+    }
+
 }
