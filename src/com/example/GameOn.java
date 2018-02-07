@@ -108,7 +108,7 @@ public class GameOn {
         Code that chooses what Direction to Go
          */
         boolean ifDirectionExists = true;
-        boolean ifItemExists  = true;
+        boolean ifItemDontExist  = true;
         boolean ifItemCanBeDropped = true;
 
         if(input.equalsIgnoreCase("List")){
@@ -135,9 +135,9 @@ public class GameOn {
                     itemsCarried.add(current.getItems().get(i));
                     current.getItems().remove(i);
                     currentRoom = current;
-                    ifItemExists = false;
+                    ifItemDontExist = false;
                 }
-                if(ifItemExists) {
+                if(ifItemDontExist) {
                     System.out.println ("Invalid Input");
                 }
             }
