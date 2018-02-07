@@ -1,9 +1,9 @@
 package com.example;
 
-        import com.mashape.unirest.http.exceptions.UnirestException;
+import com.mashape.unirest.http.exceptions.UnirestException;
 
-        import java.net.MalformedURLException;
-        import java.util.ArrayList;
+import java.net.MalformedURLException;
+import java.util.ArrayList;
 //https://courses.engr.illinois.edu/cs126/adventure/siebel.json
 
 public class GameOn {
@@ -61,9 +61,10 @@ public class GameOn {
 
     /**
      * This method prints out all the current information for the current room for the User
+     *
      * @param current current is the currentRoom
      */
-    protected static void printOutInfo (Room current) {
+    protected static void printOutInfo(Room current) {
         System.out.println(current.getDescription());
 
 
@@ -88,10 +89,10 @@ public class GameOn {
 
     /**
      * @param current current refers to the current room the player is in
-     * takes the current Room and uses userInput to manipulate current room
+     *                takes the current Room and uses userInput to manipulate current room
      */
 
-    protected static void roomAction (Room current) {
+    protected static void roomAction(Room current) {
 
         String input = userInput.playerInput();
         String firstTerm = null;
@@ -100,7 +101,7 @@ public class GameOn {
         /*
         If the input has two words,then I seperate the two words to check for take/drop items
          */
-        if (input.contains(" " )) {
+        if (input.contains(" ")) {
             firstTerm = input.split("\\s+")[0];
             secondTerm = input.split("\\s+")[1];
         }
@@ -108,17 +109,15 @@ public class GameOn {
         Code that chooses what Direction to Go
          */
         boolean ifDirectionExists = true;
-        boolean ifItemDontExist  = true;
+        boolean ifItemDontExist = true;
         boolean ifItemCanBeDropped = true;
 
-        if(input.equalsIgnoreCase("List")){
+        if (input.equalsIgnoreCase("List")) {
             System.out.println("You are carrying" + itemsCarried);
-        }
-        else if(!input.contains(" ")) {
+        } else if (!input.contains(" ")) {
             System.out.println("Enter a valid input");
             currentRoom = current;
-        }
-        else if(input.contains("go".toLowerCase()) ) {
+        } else if (input.contains("go".toLowerCase())) {
             for (Direction direction : current.getDirections()) {
 
                 if (input.contains("go " + direction.getDirectionName().toLowerCase())) {
@@ -126,10 +125,10 @@ public class GameOn {
                     ifDirectionExists = false;
                 }
             }
-             if(ifDirectionExists) {
+            if (ifDirectionExists) {
                 System.out.println("You can't go  " + secondTerm + " direction");
             }
-        } else if (firstTerm.contains("take")) {
+        } else if (firstTerm.contains("take") && current.getItems() != null) {
             for (int i = 0; i < current.getItems().size(); i++) {
                 if (input.equalsIgnoreCase("take " + current.getItems().get(i))) {
                     itemsCarried.add(current.getItems().get(i));
@@ -137,9 +136,9 @@ public class GameOn {
                     currentRoom = current;
                     ifItemDontExist = false;
                 }
-                if(ifItemDontExist) {
-                    System.out.println ("Invalid Input");
-                }
+            }
+            if (ifItemDontExist || current.getItems() == null) {
+                System.out.println("This item doesn't exist");
             }
 
         } else if (current.getItems() != null && itemsCarried != null && firstTerm.contains("drop")) {
@@ -151,8 +150,8 @@ public class GameOn {
                     ifItemCanBeDropped = false;
                 }
             }
-            if(ifItemCanBeDropped) {
-                System.out.println("Item can't be picked");
+            if (ifItemCanBeDropped) {
+                System.out.println("Item can't be dropped");
             }
         }
         /*
@@ -160,7 +159,7 @@ public class GameOn {
          */
 
         else {
-            System.out.println( "Invalid input");
+            System.out.println("Invalid input");
         }
 
     }
