@@ -62,10 +62,11 @@ public class GameOnTest {
     @Test(expected = ArrayIndexOutOfBoundsException.class)
     public void invalidRoom() {
         assertEquals(18, siebelMap.getRooms()[121212]);
+        }
+    @Test
+    public void getRoomInfo() {
+        assertEquals("SiebelNorthHallway", siebelMap.getRooms()[4].getDirections()[0].getRoom());
     }
-
-
-
 
 
 

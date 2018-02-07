@@ -38,7 +38,7 @@ public class GameOn {
     /**
      * @return startingRoom from layout file
      */
-    private static Room findStartingRoom() {
+    protected static Room findStartingRoom() {
         for (Room startingRoom : currentLayout.getRooms()) {
             if (startingRoom.getName().equalsIgnoreCase(currentLayout.getStartingRoom())) {
                 return startingRoom;
@@ -50,7 +50,7 @@ public class GameOn {
     /**
      * @return endingRoom from layout file
      */
-    private static Room findEndingRoom() {
+    protected static Room findEndingRoom() {
         for (Room endingRoom : currentLayout.getRooms()) {
             if (endingRoom.getName().equalsIgnoreCase(currentLayout.getEndingRoom())) {
                 return endingRoom;
@@ -63,7 +63,7 @@ public class GameOn {
      * This method prints out all the current information for the current room for the User
      * @param current current is the currentRoom
      */
-    private static void printOutInfo (Room current) {
+    protected static void printOutInfo (Room current) {
         System.out.println(current.getDescription());
 
 
@@ -84,8 +84,6 @@ public class GameOn {
         for (Direction directions : current.getDirections()) {
             System.out.println("From here you can go: " + directions.getDirectionName());
         }
-
-
     }
 
     /**
@@ -93,13 +91,11 @@ public class GameOn {
      * takes the current Room and uses userInput to manipulate current room
      */
 
-    private static void roomAction (Room current) {
+    protected static void roomAction (Room current) {
 
         String input = userInput.playerInput();
         String firstTerm = null;
         String secondTerm = null;
-
-
 
         /*
         If the input has two words,then I seperate the two words to check for take/drop items
@@ -108,15 +104,17 @@ public class GameOn {
             firstTerm = input.split("\\s+")[0];
             secondTerm = input.split("\\s+")[1];
         }
-
-
         /*
         Code that chooses what Direction to Go
          */
         boolean ifDirectionExists = true;
         boolean ifItemExists  = true;
         boolean ifItemCanBeDropped = true;
-        if(!input.contains(" ")) {
+
+        if(input.equalsIgnoreCase("List")){
+            System.out.println("You are carrying" + itemsCarried);
+        }
+        else if(!input.contains(" ")) {
             System.out.println("Enter a valid input");
             currentRoom = current;
         }
@@ -140,7 +138,7 @@ public class GameOn {
                     ifItemExists = false;
                 }
                 if(ifItemExists) {
-                    System.out.println ("");
+                    System.out.println ("Invalid Input");
                 }
             }
 
@@ -160,10 +158,10 @@ public class GameOn {
         /*
         Catches bad inputs as they don't enter any if statements
          */
+
         else {
             System.out.println( "Invalid input");
         }
-        System.out.println("You are carrying" + itemsCarried);
 
     }
 }
