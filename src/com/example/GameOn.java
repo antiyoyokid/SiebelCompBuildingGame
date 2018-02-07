@@ -112,8 +112,11 @@ public class GameOn {
         boolean ifDirectionExists = true;
         boolean ifItemExists  = true;
         boolean ifItemCanBeDropped = true;
-
-        if(input.contains("go".toLowerCase()) ) {
+        if(!input.contains(" ")) {
+            System.out.println("Enter a valid input");
+            currentRoom = current;
+        }
+        else if(input.contains("go".toLowerCase()) ) {
             for (Direction direction : current.getDirections()) {
 
                 if (input.contains("go " + direction.getDirectionName().toLowerCase())) {
@@ -121,7 +124,7 @@ public class GameOn {
                     ifDirectionExists = false;
                 }
             }
-            if(ifDirectionExists) {
+             if(ifDirectionExists) {
                 System.out.println("You can't go  " + secondTerm + " direction");
             }
         } else if (firstTerm.contains("take")) {
