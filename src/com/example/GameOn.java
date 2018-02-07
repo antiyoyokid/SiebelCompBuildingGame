@@ -30,7 +30,7 @@ public class GameOn {
 
         while (currentRoom != findEndingRoom()) {
             printOutInfo(currentRoom);
-            roomAction(currentRoom);
+            changeRoom(currentRoom);
         }
         System.out.print("You finished!");
     }
@@ -92,7 +92,7 @@ public class GameOn {
      *                takes the current Room and uses userInput to manipulate current room
      */
 
-    protected static void roomAction(Room current) {
+    protected static void changeRoom(Room current) {
 
         String input = userInput.playerInput();
         String firstTerm = null;
@@ -108,27 +108,42 @@ public class GameOn {
         /*
         Code that chooses what Direction to Go
          */
-        boolean ifDirectionExists = true;
+        boolean ifDirectionDontExist = true;
         boolean ifItemDontExist = true;
-        boolean ifItemCanBeDropped = true;
-
+        boolean ifItemCantBeDropped = true;
+        /*
+        For printing out list
+        */
         if (input.equalsIgnoreCase("List")) {
             System.out.println("You are carrying" + itemsCarried);
-        } else if (!input.contains(" ")) {
+        }
+        /*
+        Makes sure input has to be two words except List above
+         */
+        else if (!input.contains(" ")) {
             System.out.println("Enter a valid input");
             currentRoom = current;
-        } else if (input.contains("go".toLowerCase())) {
+        }
+        /*
+        For going directions
+         */
+
+        else if (input.contains("go".toLowerCase())) {
             for (Direction direction : current.getDirections()) {
 
                 if (input.contains("go " + direction.getDirectionName().toLowerCase())) {
                     currentRoom = direction.getRoomAsRoom(direction.getRoom());
-                    ifDirectionExists = false;
+                    ifDirectionDontExist = false;
                 }
             }
-            if (ifDirectionExists) {
+            if (ifDirectionDontExist) {
                 System.out.println("You can't go  " + secondTerm + " direction");
             }
-        } else if (firstTerm.contains("take") && current.getItems() != null) {
+        }
+        /*
+         For taking items
+        */
+        else if (firstTerm.contains("take") && current.getItems() != null) {
             for (int i = 0; i < current.getItems().size(); i++) {
                 if (input.equalsIgnoreCase("take " + current.getItems().get(i))) {
                     itemsCarried.add(current.getItems().get(i));
@@ -140,22 +155,25 @@ public class GameOn {
             if (ifItemDontExist || current.getItems() == null) {
                 System.out.println("This item doesn't exist");
             }
-
-        } else if (current.getItems() != null && itemsCarried != null && firstTerm.contains("drop")) {
+        }
+        /*
+        For Drop Item
+        */
+        else if (current.getItems() != null && itemsCarried != null && firstTerm.contains("drop")) {
             for (int i = 0; i < itemsCarried.size(); i++) {
                 if (input.equalsIgnoreCase("drop " + itemsCarried.get(i))) {
                     current.getItems().add(itemsCarried.get(i));
                     itemsCarried.remove(i);
                     currentRoom = current;
-                    ifItemCanBeDropped = false;
+                    ifItemCantBeDropped = false;
                 }
             }
-            if (ifItemCanBeDropped) {
+            if (ifItemCantBeDropped) {
                 System.out.println("Item can't be dropped");
             }
         }
         /*
-        Catches bad inputs as they don't enter any if statements
+        Catches bad inputs as they don't enter any if statements with an else statement at the end
          */
 
         else {

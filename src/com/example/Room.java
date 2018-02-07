@@ -21,8 +21,6 @@ public class Room {
         return directions;
     }
 
-
-
     public ArrayList<String> getItems() {
         return items;
     }

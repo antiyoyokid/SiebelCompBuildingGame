@@ -24,6 +24,12 @@ import java.net.URL;
 public class URLget {
     private static final int STATUS_OK = 200;
 
+    /**
+     * @param url String URL that the userInputs
+     * @return layout for the game
+     * @throws UnirestException
+     * @throws MalformedURLException
+     */
     public static Layout makeApiRequest(String url) throws UnirestException, MalformedURLException {
         Layout layout;
         final HttpResponse<String> stringHttpResponse;
