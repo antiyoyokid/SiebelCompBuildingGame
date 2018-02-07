@@ -28,8 +28,10 @@ public class GameOn {
      */
     public static void main(String[] args) {
 
-        while (currentRoom != findEndingRoom()) printRoomStatus(currentRoom);
-
+        while (currentRoom != findEndingRoom()) {
+            printOutInfo(currentRoom);
+            roomAction(currentRoom);
+        }
         System.out.print("You finished!");
     }
 
@@ -58,14 +60,10 @@ public class GameOn {
     }
 
     /**
-     * @param current takes the current Room and prints out several properties of the Room class
+     * This method prints out all the current information for the current room for the User
+     * @param current current is the currentRoom
      */
-
-    private static void printRoomStatus(Room current) {
-
-        /*
-        The first few statements just print out information on the current room
-         */
+    private static void printOutInfo (Room current) {
         System.out.println(current.getDescription());
 
 
@@ -87,10 +85,16 @@ public class GameOn {
             System.out.println("From here you can go: " + directions.getDirectionName());
         }
 
-        /*
-        This section below handles the if statements after taking in the UserInput and updates currentRoom
-        It checks inputs and checks using input.contains
-        */
+
+    }
+
+    /**
+     * @param current current refers to the current room the player is in
+     * takes the current Room and uses userInput to manipulate current room
+     */
+
+    private static void roomAction (Room current) {
+
         String input = userInput.playerInput();
         String firstTerm = null;
         String secondTerm = null;
