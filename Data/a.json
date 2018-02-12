@@ -4,7 +4,7 @@
   "Player":[
     {
       "name": "Vayne",
-      "attack": 100,
+      "attack": 250,
       "defense": 10,
       "health": 1000,
       "level": 1
@@ -44,7 +44,7 @@
         {"name": "Redbuff",
           "attack": 20,
           "defense": "0",
-          "health": "500"
+          "health": "50"
         }
       ],
       "directions": [
@@ -101,7 +101,7 @@
       "items": [{"name":"USB-C Connector",
         "damage" : 1
       }, {"name":"grading rubric",
-        "damage" : 100
+        "damage" : 10
       }],
       "directions": [
         {
@@ -120,9 +120,9 @@
       }],
       "monstersInRoom": [
         {"name": "Baron",
-          "attack": "100",
+          "attack": "10",
           "defense": "50",
-          "health": "5000"
+          "health": "40"
         }
       ],
       "directions": [

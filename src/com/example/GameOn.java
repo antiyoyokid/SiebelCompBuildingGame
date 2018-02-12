@@ -11,8 +11,7 @@ import java.util.Scanner;
 public class GameOn {
     static Layout currentLayout;
     static URLget work = new URLget();
-
-
+    static double Experience = 0;
     private static ArrayList<Items> itemsCarried = new ArrayList<Items>();
 
     static {
@@ -32,19 +31,11 @@ public class GameOn {
     }
 
     static Room currentRoom = findStartingRoom();
-
-    /**
-     * This is the main method, that prints you finished as long as currentRoom is not endingRoom
-     */
-    public static void main(String[] args) {
-
-
-        while (currentRoom != findEndingRoom()) {
-            printOutInfo(currentRoom);
-            changeRoom(currentRoom);
-        }
-        System.out.print("You are at the ending room. You finished!");
-    }
+    static double initialAttack = currentLayout.getPlayer()[0].getAttack();
+    static double initialDefense = currentLayout.getPlayer()[0].getDefense();
+    static double initialHealth = currentLayout.getPlayer()[0].getHealth();
+    int playerLevel = currentLayout.getPlayer()[0].getLevel();
+    static int monstersKilled = 0;
 
     /**
      * @return startingRoom from layout file
@@ -69,6 +60,18 @@ public class GameOn {
         }
         return null;
     }
+    /**
+     * This is the main method, that prints you finished as long as currentRoom is not endingRoom
+     */
+    public static void main(String[] args) {
+
+        while (currentRoom != findEndingRoom()) {
+            printOutInfo(currentRoom);
+            changeRoom(currentRoom);
+        }
+        System.out.print("You are at the ending room. You finished!");
+    }
+
 
     /**
      * This method prints out all the current information for the current room for the User
@@ -92,9 +95,10 @@ public class GameOn {
                 System.out.println("You can take: " + items.getName());
             }
         }
-        //if(current.getMonstersInRoom() == null) {
-        for (Direction directions : current.getDirections()) {
-            System.out.println("From here you can go: " + directions.getDirectionName());
+        if (current.getMonstersInRoom() == null || current.getMonstersInRoom().size() == 0) {
+            for (Direction directions : current.getDirections()) {
+                System.out.println("From here you can go: " + directions.getDirectionName());
+            }
         }
 
         if (current.getMonstersInRoom() != null) {
@@ -104,70 +108,6 @@ public class GameOn {
         }
     }
 
-
-    protected static void duel(Monster a, Player player) {
-        while (true) {
-            String update = userInput.duelInput();
-            if (update.equalsIgnoreCase("Disengage")){
-                break;
-            }
-            else if (update.equalsIgnoreCase("attack")) {
-                double damage = currentLayout.getPlayer()[0].getAttack() - a.getDefense();
-                a.setHealth(a.getHealth() - damage);
-
-                double monsterDamage = a.getAttack() - currentLayout.getPlayer()[0].getDefense();
-                currentLayout.getPlayer()[0].setHealth(currentLayout.getPlayer()[0].getHealth() - monsterDamage);
-                if (currentLayout.getPlayer()[0].getHealth() < 0) {
-                    System.out.println("You died");
-                    System.exit(0);
-                }
-                if (a.getHealth() < 0) {
-                    System.out.println("You have defeated this monster");
-                    currentRoom.getMonstersInRoom().remove(a);
-                    break;
-                }
-            }
-            else if (update.equalsIgnoreCase("status")) {
-                System.out.println(currentLayout.getPlayer()[0].getHealth());
-                System.out.println(a.getHealth());
-
-            }
-
-        }
-    }
-
-    protected static void duel(Monster a, Player player, Items item) {
-
-        while (true) {
-            String update = userInput.duelInput();
-            if (update.equalsIgnoreCase("Disengage")){
-                break;
-            }
-            else if (update.equalsIgnoreCase("attack")) {
-                double damage = currentLayout.getPlayer()[0].getAttack() + item.getDamage() - a.getDefense();
-                a.setHealth(a.getHealth() - damage);
-
-                double monsterDamage = a.getAttack() - currentLayout.getPlayer()[0].getDefense();
-                currentLayout.getPlayer()[0].setHealth(currentLayout.getPlayer()[0].getHealth() - monsterDamage);
-                if (currentLayout.getPlayer()[0].getHealth() < 0) {
-                    System.out.println("You died");
-                    System.exit(0);
-                }
-                if (a.getHealth() < 0) {
-                    System.out.println("You have defeated this monster");
-                    currentRoom.getMonstersInRoom().remove(a);
-                    break;
-                }
-            }
-            else if (update.equalsIgnoreCase("status")) {
-                System.out.println(currentLayout.getPlayer()[0].getHealth());
-                System.out.println(a.getHealth());
-
-            }
-
-
-        }
-    }
 
     /**
      * @param current current refers to the current room the player is in
@@ -225,11 +165,9 @@ public class GameOn {
                 if (input.contains("duel " + current.getMonstersInRoom().get(i).getName().toLowerCase()) && (input.contains("with"))) {
                     System.out.println("You are now dueling with an item");
                     for (int j = 0; j < itemsCarried.size(); j++) {
-                        if (input.contains(itemsCarried.get(i).getName())) {
+                        if (input.contains(itemsCarried.get(i).getName()) && current.getMonstersInRoom().size() != 0) {
 
                             duel(current.getMonstersInRoom().get(i), currentLayout.getPlayer()[0], itemsCarried.get(i));
-
-
 
                         }
                         currentRoom = current;
@@ -248,20 +186,18 @@ public class GameOn {
             if (ifMonsterDontExist) {
                 System.out.println("I can't duel " + secondTerm);
             }
-        }
+        } else if (input.contains("go".toLowerCase())) {
+            if (currentRoom.getMonstersInRoom() == null || currentRoom.getMonstersInRoom().size() == 0) {
+                for (Direction direction : current.getDirections()) {
 
-
-        else if (input.contains("go".toLowerCase())) {
-            //if (currentRoom.getMonstersInRoom() == null) {
-            for (Direction direction : current.getDirections()) {
-
-                if (input.contains("go " + direction.getDirectionName().toLowerCase())) {
-                    currentRoom = direction.getRoomAsRoom(direction.getRoom());
-                    ifDirectionDontExist = false;
+                    if (input.contains("go " + direction.getDirectionName().toLowerCase())) {
+                        currentRoom = direction.getRoomAsRoom(direction.getRoom());
+                        ifDirectionDontExist = false;
+                    }
                 }
-            }
-            if (ifDirectionDontExist) {
-                System.out.println("You can't go  " + secondTerm + " direction");
+                if (ifDirectionDontExist) {
+                    System.out.println("You can't go  " + secondTerm + " direction");
+                }
             } else {
                 System.out.println("There are still monsters in the room");
             }
@@ -308,5 +244,162 @@ public class GameOn {
             System.out.println("Invalid input");
         }
 
+    }
+    protected static void duel(Monster a, Player player) {
+        double oldPlayerHealth = currentLayout.getPlayer()[0].getHealth();
+        double oldMonsterHealth = a.getHealth();
+        while (true) {
+            String update = userInput.duelInput();
+            if (update.equalsIgnoreCase("Disengage")) {
+                break;
+            } else if (update.equalsIgnoreCase("attack")) {
+                double damage = currentLayout.getPlayer()[0].getAttack() - a.getDefense();
+                a.setHealth(a.getHealth() - damage);
+
+                double monsterDamage = a.getAttack() - currentLayout.getPlayer()[0].getDefense();
+                currentLayout.getPlayer()[0].setHealth(currentLayout.getPlayer()[0].getHealth() - monsterDamage);
+                if (currentLayout.getPlayer()[0].getHealth() < 0) {
+                    System.out.println("You died");
+                    System.exit(0);
+                }
+                if (a.getHealth() <= 0) {
+                    System.out.println("You have defeated this monster");
+
+                    Experience += Math.abs((((a.getAttack() + a.getDefense()) / 2) + a.getHealth()) * 20);
+                    if (Experience > experienceRequirement(currentLayout.getPlayer()[0].getLevel())) {
+                        currentLayout.getPlayer()[0].setLevel(currentLayout.getPlayer()[0].getLevel() + 1);
+                        currentLayout.getPlayer()[0].setHealth(initialHealth * Math.pow(1.3, currentLayout.getPlayer()[0].getLevel()));
+                        currentLayout.getPlayer()[0].setAttack(initialAttack * Math.pow(1.5, currentLayout.getPlayer()[0].getLevel()));
+                        currentLayout.getPlayer()[0].setDefense(initialDefense * Math.pow(1.5, currentLayout.getPlayer()[0].getLevel()));
+                    }
+                    currentRoom.getMonstersInRoom().remove(a);
+                    break;
+                }
+            } else if (update.equalsIgnoreCase("status")) {
+                double playerRatio = currentLayout.getPlayer()[0].getHealth() / oldPlayerHealth;
+
+                if (playerRatio < 0.2) {
+                    System.out.println("Player Status : " + "#____");
+                } else if (playerRatio < 0.4) {
+                    System.out.println("Player Status : " + "##___");
+                } else if (playerRatio < 0.6) {
+                    System.out.println("Player Status : " + "###__");
+                } else if (playerRatio < 0.8) {
+                    System.out.println("Player Status : " + "####_");
+                } else if (playerRatio <= 1) {
+                    System.out.println("Player Status : " + "#####");
+                }
+
+                double monstaRatio = a.getHealth() / oldMonsterHealth;
+                if (monstaRatio < 0.2) {
+                    System.out.println("Monster Status : " + "#____");
+                } else if (monstaRatio < 0.4) {
+                    System.out.println("Monster Status : " + "##___");
+                } else if (monstaRatio < 0.6) {
+                    System.out.println("Monster Status : " + "###__");
+                } else if (monstaRatio < 0.8) {
+                    System.out.println("Monster Status : " + "####_");
+                } else if (monstaRatio == 1) {
+                    System.out.println("Monster Status : " + "#####");
+                }
+
+
+            }
+
+
+        }
+    }
+
+    protected static double experienceRequirement(int playerLevel) {
+
+        if (playerLevel == 1) {
+            return 25;
+        }
+        if (playerLevel == 2) {
+            return 50;
+        }
+
+        return ((experienceRequirement(-1) + experienceRequirement(-2)) * 1.1);
+
+
+    }
+
+
+    protected static void duel(Monster a, Player player, Items item) {
+        double oldPlayerHealth = currentLayout.getPlayer()[0].getHealth();
+        double oldMonsterHealth = a.getHealth();
+        while (true) {
+            String update = userInput.duelInput();
+            if (update.equalsIgnoreCase("Disengage")) {
+                break;
+            } else if (update.equalsIgnoreCase("attack")) {
+                double damage = currentLayout.getPlayer()[0].getAttack() + item.getDamage() - a.getDefense();
+                a.setHealth(a.getHealth() - damage);
+
+                double monsterDamage = a.getAttack() - currentLayout.getPlayer()[0].getDefense();
+                currentLayout.getPlayer()[0].setHealth(currentLayout.getPlayer()[0].getHealth() - monsterDamage);
+                if (currentLayout.getPlayer()[0].getHealth() < 0) {
+                    System.out.println("You died");
+                    System.exit(0);
+                }
+                if (a.getHealth() < 0) {
+                    System.out.println("You have defeated this monster");
+                    currentRoom.getMonstersInRoom().remove(a);
+                    Experience += ((a.getAttack() + a.getDefense()) / 2 + a.getHealth()) * 20;
+                    if (Experience >= experienceRequirement(currentLayout.getPlayer()[0].getLevel())) {
+                        currentLayout.getPlayer()[0].setLevel(currentLayout.getPlayer()[0].getLevel() + 1);
+                        currentLayout.getPlayer()[0].setHealth(initialHealth * Math.pow(1.3, currentLayout.getPlayer()[0].getLevel()));
+                        currentLayout.getPlayer()[0].setAttack(initialAttack * Math.pow(1.3, currentLayout.getPlayer()[0].getLevel()));
+                        currentLayout.getPlayer()[0].setDefense(initialDefense * Math.pow(1.3, currentLayout.getPlayer()[0].getLevel()));
+                    }
+
+                    break;
+                }
+            } else if (update.equalsIgnoreCase("status")) {
+                System.out.println("You have defeated this monster");
+
+                Experience += Math.abs((((a.getAttack() + a.getDefense()) / 2) + a.getHealth()) * 20);
+                if (Experience > experienceRequirement(currentLayout.getPlayer()[0].getLevel())) {
+                    currentLayout.getPlayer()[0].setLevel(currentLayout.getPlayer()[0].getLevel() + 1);
+                    currentLayout.getPlayer()[0].setHealth(initialHealth * Math.pow(1.3, currentLayout.getPlayer()[0].getLevel()));
+                    currentLayout.getPlayer()[0].setAttack(initialAttack * Math.pow(1.3, currentLayout.getPlayer()[0].getLevel()));
+                    currentLayout.getPlayer()[0].setDefense(initialDefense * Math.pow(1.3, currentLayout.getPlayer()[0].getLevel()));
+                }
+                currentRoom.getMonstersInRoom().remove(a);
+                break;
+            }
+            else if (update.equalsIgnoreCase("status")) {
+                double playerRatio = currentLayout.getPlayer()[0].getHealth() / oldPlayerHealth;
+
+                if (playerRatio < 0.2) {
+                    System.out.println("Player Status : " + "#____");
+                } else if (playerRatio < 0.4) {
+                    System.out.println("Player Status : " + "##___");
+                } else if (playerRatio < 0.6) {
+                    System.out.println("Player Status : " + "###__");
+                } else if (playerRatio < 0.8) {
+                    System.out.println("Player Status : " + "####_");
+                } else if (playerRatio <= 1) {
+                    System.out.println("Player Status : " + "#####");
+                }
+
+                double monstaRatio = a.getHealth() / oldMonsterHealth;
+                if (monstaRatio < 0.2) {
+                    System.out.println("Monster Status : " + "#____");
+                } else if (monstaRatio < 0.4) {
+                    System.out.println("Monster Status : " + "##___");
+                } else if (monstaRatio < 0.6) {
+                    System.out.println("Monster Status : " + "###__");
+                } else if (monstaRatio < 0.8) {
+                    System.out.println("Monster Status : " + "####_");
+                } else if (monstaRatio == 1) {
+                    System.out.println("Monster Status : " + "#####");
+                }
+
+
+            }
+
+
+        }
     }
 }
