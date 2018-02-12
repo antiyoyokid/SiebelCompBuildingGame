@@ -1,24 +1,35 @@
 package com.example;
 
+import com.google.gson.Gson;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Scanner;
 //https://courses.engr.illinois.edu/cs126/adventure/siebel.json
 
 public class GameOn {
-    static final String url = userInput.website(); //sends request to site with Json File
     static Layout currentLayout;
+    static URLget work = new URLget();
+
+
     private static ArrayList<String> itemsCarried = new ArrayList<String>();
 
     static {
-        try {
-            currentLayout = URLget.makeApiRequest(url);  // makes the Json files recieved be the layout
-        } catch (UnirestException e) {
-            e.printStackTrace();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
+        if (userInput.gameStart().equals("1")) {
+            try {
+                currentLayout = URLget.makeApiRequest(userInput.website());  // makes the Json files recieved be the layout
+            } catch (UnirestException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
         }
+        else {
+            Gson fileReader = new Gson();
+            currentLayout = fileReader.fromJson(work.getFileContentsAsString(userInput.localFile()), Layout.class);
+        }
+
     }
 
     static Room currentRoom = findStartingRoom();
@@ -28,11 +39,12 @@ public class GameOn {
      */
     public static void main(String[] args) {
 
+
         while (currentRoom != findEndingRoom()) {
             printOutInfo(currentRoom);
             changeRoom(currentRoom);
         }
-        System.out.print("You finished!");
+        System.out.print("You are at the ending room. You finished!");
     }
 
     /**
@@ -85,6 +97,11 @@ public class GameOn {
         for (Direction directions : current.getDirections()) {
             System.out.println("From here you can go: " + directions.getDirectionName());
         }
+        if (current.getMonstersInRoom() != null) {
+            for (Monster monster : current.getMonstersInRoom()) {
+                System.out.println(monster.getName());
+            }
+        }
     }
 
     /**
@@ -99,7 +116,7 @@ public class GameOn {
         String secondTerm = null;
 
         /*
-        If the input has two words,then I seperate the two words to check for take/drop items
+        If the input has two words,then, seperate the two words to check for take/drop items
          */
         if (input.contains(" ")) {
             firstTerm = input.split("\\s+")[0];

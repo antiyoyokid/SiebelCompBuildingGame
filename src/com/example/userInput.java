@@ -1,9 +1,13 @@
 package com.example;
 
+import com.mashape.unirest.http.exceptions.UnirestException;
+
+import java.net.MalformedURLException;
 import java.util.Scanner;
 
+
 public class userInput {
-    public static String playerInput() {
+       public static String playerInput() {
 
         System.out.println("Type your command");
 
@@ -28,6 +32,23 @@ public class userInput {
         String url = input.nextLine();
 
         return url;
+    }
+
+    public static String localFile() {
+        System.out.println("Enter file name with .json");
+        Scanner input = new Scanner(System.in);
+        String fileName = input.nextLine();
+
+        return fileName;
+    }
+
+    public static String gameStart() {
+        System.out.println("Welcome summoner");
+        System.out.println("To load map from URL press 1, else to load from local file 2");
+        Scanner input = new Scanner(System.in);
+        String choice = input.nextLine();
+
+       return choice;
     }
 }
 

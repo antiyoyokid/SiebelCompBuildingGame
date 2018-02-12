@@ -5,6 +5,7 @@ public class Layout {
     private String endingRoom;
     private Room[] rooms;
 
+
     public String getStartingRoom() {
         return startingRoom;
     }
