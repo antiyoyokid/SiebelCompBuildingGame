@@ -110,6 +110,10 @@ public class GameOn {
      *                takes the current Room and uses userInput to manipulate current room
      */
 
+    protected static void duel (){
+        System.out.println("This thing does nothing so far");
+    }
+
     protected static void changeRoom(Room current) {
 
         String input = userInput.playerInput();
@@ -157,27 +161,41 @@ public class GameOn {
         else if (input.contains("duel".toLowerCase()) && current.getMonstersInRoom() != null) {
             for (Monster monster : current.getMonstersInRoom()) {
 
-                if (input.contains("duel " + monster.getName().toLowerCase())){
-                    System.out.println("Duel in progress");
+                if (input.contains("duel " + monster.getName().toLowerCase()) && (input.contains("with"))) {
+                    System.out.println("You are now dueling with an item");
+                    duel();
                     currentRoom = current;
                     ifMonsterDontExist = false;
                 }
+
+                else if (input.contains("duel " + monster.getName().toLowerCase())){
+                    System.out.println("You are now in duel mode");
+                    duel();
+                    currentRoom = current;
+                    ifMonsterDontExist = false;
+                }
+
+
             }
                 if (ifMonsterDontExist) {
                 System.out.print("I can't duel " + secondTerm);
                 }
         }
 
-        else if (input.contains("go".toLowerCase()) && currentRoom.getMonstersInRoom()== null) {  //can't leave room if there are monsters
-            for (Direction direction : current.getDirections()) {
+        else if (input.contains("go".toLowerCase())) {  //can't leave room if there are monsters
+            if (currentRoom.getMonstersInRoom() == null) {
+                for (Direction direction : current.getDirections()) {
 
-                if (input.contains("go " + direction.getDirectionName().toLowerCase())) {
-                    currentRoom = direction.getRoomAsRoom(direction.getRoom());
-                    ifDirectionDontExist = false;
+                    if (input.contains("go " + direction.getDirectionName().toLowerCase())) {
+                        currentRoom = direction.getRoomAsRoom(direction.getRoom());
+                        ifDirectionDontExist = false;
+                    }
                 }
-            }
-            if (ifDirectionDontExist) {
-                System.out.println("You can't go  " + secondTerm + " direction");
+                if (ifDirectionDontExist) {
+                    System.out.println("You can't go  " + secondTerm + " direction");
+                }
+            } else {
+                System.out.println("There are still monsters in the room");
             }
         }
         /*
