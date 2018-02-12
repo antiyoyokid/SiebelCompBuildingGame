@@ -106,11 +106,13 @@ public class GameOn {
 
 
     protected static void duel(Monster a, Player player) {
-        String input = userInput.duelInput();
-        while (!input.equalsIgnoreCase("disengage")) {
+        while (true) {
             String update = userInput.duelInput();
-            if (update.equalsIgnoreCase("attack")) {
-                double damage = currentLayout.getPlayer()[0].getAttack()  - a.getDefense();
+            if (update.equalsIgnoreCase("Disengage")){
+                break;
+            }
+            else if (update.equalsIgnoreCase("attack")) {
+                double damage = currentLayout.getPlayer()[0].getAttack() - a.getDefense();
                 a.setHealth(a.getHealth() - damage);
 
                 double monsterDamage = a.getAttack() - currentLayout.getPlayer()[0].getDefense();
@@ -124,21 +126,23 @@ public class GameOn {
                     break;
                 }
             }
-            if (update.equalsIgnoreCase("status")) {
+            else if (update.equalsIgnoreCase("status")) {
                 System.out.println(currentLayout.getPlayer()[0].getHealth());
                 System.out.println(a.getHealth());
 
             }
 
-
         }
     }
 
     protected static void duel(Monster a, Player player, Items item) {
-        String input = userInput.duelInput();
-        while (!input.equalsIgnoreCase("disengage")) {
+
+        while (true) {
             String update = userInput.duelInput();
-            if (update.equalsIgnoreCase("attack")) {
+            if (update.equalsIgnoreCase("Disengage")){
+                break;
+            }
+            else if (update.equalsIgnoreCase("attack")) {
                 double damage = currentLayout.getPlayer()[0].getAttack() + item.getDamage() - a.getDefense();
                 a.setHealth(a.getHealth() - damage);
 
@@ -153,7 +157,7 @@ public class GameOn {
                     break;
                 }
             }
-            if (update.equalsIgnoreCase("status")) {
+            else if (update.equalsIgnoreCase("status")) {
                 System.out.println(currentLayout.getPlayer()[0].getHealth());
                 System.out.println(a.getHealth());
 
@@ -213,7 +217,7 @@ public class GameOn {
         For going directions
          */
         else if (input.contains("duel".toLowerCase()) && current.getMonstersInRoom() != null) {
-            String duelInput = userInput.duelInput();
+
             for (int i = 0; i < current.getMonstersInRoom().length; i++) {
 
                 if (input.contains("duel " + current.getMonstersInRoom()[i].getName().toLowerCase()) && (input.contains("with"))) {
@@ -222,12 +226,14 @@ public class GameOn {
                         if (input.contains(itemsCarried.get(i).getName())) {
 
                             duel(current.getMonstersInRoom()[i], currentLayout.getPlayer()[0], itemsCarried.get(i));
+                            continue;
 
 
                         }
+                        currentRoom = current;
+                        ifMonsterDontExist = false;
                     }
-                    currentRoom = current;
-                    ifMonsterDontExist = false;
+
                 } else if (input.contains("duel " + current.getMonstersInRoom()[i].getName().toLowerCase())) {
                     System.out.println("You are now in duel mode");
 
