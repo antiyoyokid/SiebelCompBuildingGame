@@ -2,13 +2,13 @@ package com.example;
 
 public class Items {
     private String name;
-    private String damage;
+    private double damage;
 
     public String getName() {
         return name;
     }
 
-    public String getDamage() {
+    public double getDamage() {
         return damage;
     }
 }

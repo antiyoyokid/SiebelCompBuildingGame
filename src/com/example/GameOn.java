@@ -24,8 +24,7 @@ public class GameOn {
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
-        }
-        else {
+        } else {
             Gson fileReader = new Gson();
             currentLayout = fileReader.fromJson(work.getFileContentsAsString(userInput.localFile()), Layout.class);
         }
@@ -94,22 +93,76 @@ public class GameOn {
             }
         }
         //if(current.getMonstersInRoom() == null) {
-            for (Direction directions : current.getDirections()) {
-                System.out.println("From here you can go: " + directions.getDirectionName());
-            }
+        for (Direction directions : current.getDirections()) {
+            System.out.println("From here you can go: " + directions.getDirectionName());
+        }
 
         if (current.getMonstersInRoom() != null) {
             for (Monster monster : current.getMonstersInRoom()) {
-                System.out.println("Monsters in room: " +monster.getName());
+                System.out.println("Monsters in room: " + monster.getName());
             }
         }
     }
 
 
+    protected static void duel(Monster a, Player player) {
+        String input = userInput.duelInput();
+        while (!input.equalsIgnoreCase("disengage")) {
+            String update = userInput.duelInput();
+            if (update.equalsIgnoreCase("attack")) {
+                double damage = currentLayout.getPlayer()[0].getAttack()  - a.getDefense();
+                a.setHealth(a.getHealth() - damage);
 
-    protected static void duel (){
-        System.out.println("This thing does nothing so far");
+                double monsterDamage = a.getAttack() - currentLayout.getPlayer()[0].getDefense();
+                currentLayout.getPlayer()[0].setHealth(currentLayout.getPlayer()[0].getHealth() - monsterDamage);
+                if (currentLayout.getPlayer()[0].getHealth() < 0) {
+                    System.out.println("You died");
+                    System.exit(0);
+                }
+                if (a.getHealth() < 0) {
+                    System.out.println("You have defeated this monster");
+                    break;
+                }
+            }
+            if (update.equalsIgnoreCase("status")) {
+                System.out.println(currentLayout.getPlayer()[0].getHealth());
+                System.out.println(a.getHealth());
+
+            }
+
+
+        }
     }
+
+    protected static void duel(Monster a, Player player, Items item) {
+        String input = userInput.duelInput();
+        while (!input.equalsIgnoreCase("disengage")) {
+            String update = userInput.duelInput();
+            if (update.equalsIgnoreCase("attack")) {
+                double damage = currentLayout.getPlayer()[0].getAttack() + item.getDamage() - a.getDefense();
+                a.setHealth(a.getHealth() - damage);
+
+                double monsterDamage = a.getAttack() - currentLayout.getPlayer()[0].getDefense();
+                currentLayout.getPlayer()[0].setHealth(currentLayout.getPlayer()[0].getHealth() - monsterDamage);
+                if (currentLayout.getPlayer()[0].getHealth() < 0) {
+                    System.out.println("You died");
+                    System.exit(0);
+                }
+                if (a.getHealth() < 0) {
+                    System.out.println("You have defeated this monster");
+                    break;
+                }
+            }
+            if (update.equalsIgnoreCase("status")) {
+                System.out.println(currentLayout.getPlayer()[0].getHealth());
+                System.out.println(a.getHealth());
+
+            }
+
+
+        }
+    }
+
     /**
      * @param current current refers to the current room the player is in
      *                takes the current Room and uses userInput to manipulate current room
@@ -138,11 +191,10 @@ public class GameOn {
         For printing out list
         */
         if (input.equalsIgnoreCase("List")) {
-            for(Items item : itemsCarried){
+            for (Items item : itemsCarried) {
                 System.out.println("You are carrying " + item.getName());
             }
-        }
-        else if (input.equalsIgnoreCase("playerinfo")) {
+        } else if (input.equalsIgnoreCase("playerinfo")) {
             System.out.println("Here is the current player information: ");
             System.out.println("Name: " + currentLayout.getPlayer()[0].getName());
             System.out.println("Attack: " + currentLayout.getPlayer()[0].getAttack());
@@ -161,26 +213,37 @@ public class GameOn {
         For going directions
          */
         else if (input.contains("duel".toLowerCase()) && current.getMonstersInRoom() != null) {
-            for (Monster monster : current.getMonstersInRoom()) {
+            String duelInput = userInput.duelInput();
+            for (int i = 0; i < current.getMonstersInRoom().length; i++) {
 
-                if (input.contains("duel " + monster.getName().toLowerCase()) && (input.contains("with"))) {
+                if (input.contains("duel " + current.getMonstersInRoom()[i].getName().toLowerCase()) && (input.contains("with"))) {
                     System.out.println("You are now dueling with an item");
-                    duel();
+                    for (int j = 0; j < itemsCarried.size(); j++) {
+                        if (input.contains(itemsCarried.get(i).getName())) {
+
+                            duel(current.getMonstersInRoom()[i], currentLayout.getPlayer()[0], itemsCarried.get(i));
+
+
+                        }
+                    }
                     currentRoom = current;
                     ifMonsterDontExist = false;
-                } else if (input.contains("duel " + monster.getName().toLowerCase())) {
+                } else if (input.contains("duel " + current.getMonstersInRoom()[i].getName().toLowerCase())) {
                     System.out.println("You are now in duel mode");
-                    duel();
-                    currentRoom = current;
-                    ifMonsterDontExist = false;
+
+                    duel(current.getMonstersInRoom()[i], currentLayout.getPlayer()[0]);
                 }
-
-
+                currentRoom = current;
+                ifMonsterDontExist = false;
             }
+
             if (ifMonsterDontExist) {
-                System.out.print("I can't duel " + secondTerm);
+                System.out.println("I can't duel " + secondTerm);
             }
-        } else if (input.contains("go".toLowerCase())) {
+        }
+
+
+        else if (input.contains("go".toLowerCase())) {
             //if (currentRoom.getMonstersInRoom() == null) {
             for (Direction direction : current.getDirections()) {
 

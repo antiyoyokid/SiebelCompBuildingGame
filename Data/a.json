@@ -20,7 +20,7 @@
       }],
       "monstersInRoom": [
         {"name": "Bluebuff",
-          "attack": 10,
+          "attack": 20,
           "defense": 1,
           "health": 500
         }

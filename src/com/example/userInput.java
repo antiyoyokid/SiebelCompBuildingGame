@@ -50,5 +50,13 @@ public class userInput {
 
        return choice;
     }
+
+    public static String duelInput(){
+           System.out.println("Fight");
+           Scanner input = new Scanner(System.in);
+           String duelInput = input.nextLine().trim().toLowerCase();
+
+           return duelInput;
+    }
 }
 
