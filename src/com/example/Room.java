@@ -9,7 +9,7 @@ public class Room {
     private String description;
     private Direction[] directions;
     private ArrayList<Items> items;
-    private Monster[] monstersInRoom;
+    private ArrayList<Monster> monstersInRoom;
 
     public String getName() {
            return name;
@@ -23,7 +23,7 @@ public class Room {
         return directions;
     }
 
-    public Monster[] getMonstersInRoom(){
+    public ArrayList<Monster> getMonstersInRoom(){
         return monstersInRoom;
     }
 

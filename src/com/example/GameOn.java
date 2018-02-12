@@ -123,6 +123,7 @@ public class GameOn {
                 }
                 if (a.getHealth() < 0) {
                     System.out.println("You have defeated this monster");
+                    currentRoom.getMonstersInRoom().remove(a);
                     break;
                 }
             }
@@ -154,6 +155,7 @@ public class GameOn {
                 }
                 if (a.getHealth() < 0) {
                     System.out.println("You have defeated this monster");
+                    currentRoom.getMonstersInRoom().remove(a);
                     break;
                 }
             }
@@ -218,26 +220,26 @@ public class GameOn {
          */
         else if (input.contains("duel".toLowerCase()) && current.getMonstersInRoom() != null) {
 
-            for (int i = 0; i < current.getMonstersInRoom().length; i++) {
+            for (int i = 0; i < current.getMonstersInRoom().size(); i++) {
 
-                if (input.contains("duel " + current.getMonstersInRoom()[i].getName().toLowerCase()) && (input.contains("with"))) {
+                if (input.contains("duel " + current.getMonstersInRoom().get(i).getName().toLowerCase()) && (input.contains("with"))) {
                     System.out.println("You are now dueling with an item");
                     for (int j = 0; j < itemsCarried.size(); j++) {
                         if (input.contains(itemsCarried.get(i).getName())) {
 
-                            duel(current.getMonstersInRoom()[i], currentLayout.getPlayer()[0], itemsCarried.get(i));
-                            continue;
+                            duel(current.getMonstersInRoom().get(i), currentLayout.getPlayer()[0], itemsCarried.get(i));
+
 
 
                         }
                         currentRoom = current;
-                        ifMonsterDontExist = false;
+                        ifMonsterDontExist = false; //do later
                     }
 
-                } else if (input.contains("duel " + current.getMonstersInRoom()[i].getName().toLowerCase())) {
+                } else if (input.contains("duel " + current.getMonstersInRoom().get(i).getName().toLowerCase())) {
                     System.out.println("You are now in duel mode");
 
-                    duel(current.getMonstersInRoom()[i], currentLayout.getPlayer()[0]);
+                    duel(current.getMonstersInRoom().get(i), currentLayout.getPlayer()[0]);
                 }
                 currentRoom = current;
                 ifMonsterDontExist = false;
