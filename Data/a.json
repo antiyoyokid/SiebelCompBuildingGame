@@ -15,7 +15,9 @@
     {
       "name": "MatthewsStreet",
       "description": "You are on Matthews, outside the Siebel Center",
-      "items": ["coin"],
+      "items": [{"name":"coin",
+        "damage" : 4
+      }],
       "monstersInRoom": [
         {"name": "Bluebuff",
           "attack": 10,
@@ -33,10 +35,14 @@
     {
       "name": "SiebelEntry",
       "description": "You are in the west entry of Siebel Center.  You can see the elevator, the ACM office, and hallways to the north and east.",
-	  "items": ["sweatshirt", "key"],
+	  "items": [ {"name":"sweatshirt",
+        "damage" : 1
+      }, {"name":"key",
+        "damage" : 3
+      }],
       "monstersInRoom": [
         {"name": "Redbuff",
-          "attack": "20",
+          "attack": 20,
           "defense": "0",
           "health": "500"
         }
@@ -63,7 +69,11 @@
     {
       "name": "AcmOffice",
       "description": "You are in the ACM office.  There are lots of friendly ACM people.",
-      "items": ["pizza", "swag"],
+      "items": [{"name":"pizza",
+        "damage" : 1
+      }, {"name":"swag",
+        "damage" : 1
+      }],
       "directions": [
         {
           "directionName": "South",
@@ -88,7 +98,11 @@
     {
       "name": "Siebel1112",
       "description": "You are in Siebel 1112.  There is space for two code reviews in this room.",
-      "items": ["USB-C connector", "grading rubric"],
+      "items": [{"name":"USB-C Connector",
+        "damage" : 1
+      }, {"name":"grading rubric",
+        "damage" : 100
+      }],
       "directions": [
         {
           "directionName": "West",
@@ -99,7 +113,11 @@
     {
       "name": "SiebelEastHallway",
       "description": "You are in the east hallway.  You can see Einstein Bros' Bagels and a stairway.",
-      "items": ["bagel", "coffee"],
+      "items": [{"name":"bagel",
+        "damage" : 1
+      }, {"name":"coffee",
+        "damage" : 10
+      }],
       "monstersInRoom": [
         {"name": "Baron",
           "attack": "100",
@@ -135,7 +153,9 @@
     {
       "name": "SiebelBasement",
       "description": "You are in the basement of Siebel.  You see tables with students working and door to computer labs.",
-      "items": ["pencil"],
+      "items": [{"name":"pencil",
+        "damage" : 1
+      }],
       "directions": [
         {
           "directionName": "Up",

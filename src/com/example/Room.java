@@ -8,7 +8,7 @@ public class Room {
     private String name;
     private String description;
     private Direction[] directions;
-    private ArrayList<String> items;
+    private ArrayList<Items> items;
     private Monster[] monstersInRoom;
 
     public String getName() {
@@ -23,11 +23,11 @@ public class Room {
         return directions;
     }
 
-    public ArrayList<String> getItems() {
-        return items;
-    }
     public Monster[] getMonstersInRoom(){
         return monstersInRoom;
     }
 
+    public ArrayList<Items> getItems() {
+        return items;
+    }
 }

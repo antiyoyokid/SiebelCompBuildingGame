@@ -13,7 +13,7 @@ public class GameOn {
     static URLget work = new URLget();
 
 
-    private static ArrayList<String> itemsCarried = new ArrayList<String>();
+    private static ArrayList<Items> itemsCarried = new ArrayList<Items>();
 
     static {
         if (userInput.gameStart().equals("1")) {
@@ -89,15 +89,15 @@ public class GameOn {
         }
 
         if (current.getItems() != null) {
-            for (String items : current.getItems()) {
-                System.out.println("You can take: " + items);
+            for (Items items : current.getItems()) {
+                System.out.println("You can take: " + items.getName());
             }
         }
-        if(current.getMonstersInRoom() == null) {
+        //if(current.getMonstersInRoom() == null) {
             for (Direction directions : current.getDirections()) {
                 System.out.println("From here you can go: " + directions.getDirectionName());
             }
-        }
+
         if (current.getMonstersInRoom() != null) {
             for (Monster monster : current.getMonstersInRoom()) {
                 System.out.println("Monsters in room: " +monster.getName());
@@ -105,15 +105,15 @@ public class GameOn {
         }
     }
 
-    /**
-     * @param current current refers to the current room the player is in
-     *                takes the current Room and uses userInput to manipulate current room
-     */
+
 
     protected static void duel (){
         System.out.println("This thing does nothing so far");
     }
-
+    /**
+     * @param current current refers to the current room the player is in
+     *                takes the current Room and uses userInput to manipulate current room
+     */
     protected static void changeRoom(Room current) {
 
         String input = userInput.playerInput();
@@ -138,10 +138,12 @@ public class GameOn {
         For printing out list
         */
         if (input.equalsIgnoreCase("List")) {
-            System.out.println("You are carrying" + itemsCarried);
+            for(Items item : itemsCarried){
+                System.out.println("You are carrying " + item.getName());
+            }
         }
-        else if (input.equalsIgnoreCase("playerinfo")){
-            System.out.println("Here is the current player information: " );
+        else if (input.equalsIgnoreCase("playerinfo")) {
+            System.out.println("Here is the current player information: ");
             System.out.println("Name: " + currentLayout.getPlayer()[0].getName());
             System.out.println("Attack: " + currentLayout.getPlayer()[0].getAttack());
             System.out.println("Defense: " + currentLayout.getPlayer()[0].getDefense());
@@ -166,9 +168,7 @@ public class GameOn {
                     duel();
                     currentRoom = current;
                     ifMonsterDontExist = false;
-                }
-
-                else if (input.contains("duel " + monster.getName().toLowerCase())){
+                } else if (input.contains("duel " + monster.getName().toLowerCase())) {
                     System.out.println("You are now in duel mode");
                     duel();
                     currentRoom = current;
@@ -177,33 +177,32 @@ public class GameOn {
 
 
             }
-                if (ifMonsterDontExist) {
+            if (ifMonsterDontExist) {
                 System.out.print("I can't duel " + secondTerm);
-                }
-        }
+            }
+        } else if (input.contains("go".toLowerCase())) {
+            //if (currentRoom.getMonstersInRoom() == null) {
+            for (Direction direction : current.getDirections()) {
 
-        else if (input.contains("go".toLowerCase())) {  //can't leave room if there are monsters
-            if (currentRoom.getMonstersInRoom() == null) {
-                for (Direction direction : current.getDirections()) {
-
-                    if (input.contains("go " + direction.getDirectionName().toLowerCase())) {
-                        currentRoom = direction.getRoomAsRoom(direction.getRoom());
-                        ifDirectionDontExist = false;
-                    }
+                if (input.contains("go " + direction.getDirectionName().toLowerCase())) {
+                    currentRoom = direction.getRoomAsRoom(direction.getRoom());
+                    ifDirectionDontExist = false;
                 }
-                if (ifDirectionDontExist) {
-                    System.out.println("You can't go  " + secondTerm + " direction");
-                }
+            }
+            if (ifDirectionDontExist) {
+                System.out.println("You can't go  " + secondTerm + " direction");
             } else {
                 System.out.println("There are still monsters in the room");
             }
         }
+
+
         /*
          For taking items
         */
         else if (firstTerm.contains("take") && current.getItems() != null) {
             for (int i = 0; i < current.getItems().size(); i++) {
-                if (input.equalsIgnoreCase("take " + current.getItems().get(i))) {
+                if (input.equalsIgnoreCase("take " + current.getItems().get(i).getName())) {
                     itemsCarried.add(current.getItems().get(i));
                     current.getItems().remove(i);
                     currentRoom = current;
@@ -219,8 +218,8 @@ public class GameOn {
         */
         else if (current.getItems() != null && itemsCarried != null && firstTerm.contains("drop")) {
             for (int i = 0; i < itemsCarried.size(); i++) {
-                if (input.equalsIgnoreCase("drop " + itemsCarried.get(i))) {
-                    current.getItems().add(itemsCarried.get(i));
+                if (input.equalsIgnoreCase("drop " + itemsCarried.get(i).getName())) {
+                    current.getItems().add(itemsCarried.get(i)); //need to make this itemsCarried of type Item
                     itemsCarried.remove(i);
                     currentRoom = current;
                     ifItemCantBeDropped = false;
