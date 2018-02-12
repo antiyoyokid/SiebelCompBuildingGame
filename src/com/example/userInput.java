@@ -35,9 +35,9 @@ public class userInput {
     }
 
     public static String localFile() {
-        System.out.println("Enter file name with .json");
+        System.out.println("Enter file name");
         Scanner input = new Scanner(System.in);
-        String fileName = input.nextLine();
+        String fileName = input.nextLine() + ".json";
 
         return fileName;
     }

@@ -93,13 +93,14 @@ public class GameOn {
                 System.out.println("You can take: " + items);
             }
         }
-
-        for (Direction directions : current.getDirections()) {
-            System.out.println("From here you can go: " + directions.getDirectionName());
+        if(current.getMonstersInRoom() == null) {
+            for (Direction directions : current.getDirections()) {
+                System.out.println("From here you can go: " + directions.getDirectionName());
+            }
         }
         if (current.getMonstersInRoom() != null) {
             for (Monster monster : current.getMonstersInRoom()) {
-                System.out.println(monster.getName());
+                System.out.println("Monsters in room: " +monster.getName());
             }
         }
     }
@@ -128,11 +129,20 @@ public class GameOn {
         boolean ifDirectionDontExist = true;
         boolean ifItemDontExist = true;
         boolean ifItemCantBeDropped = true;
+        boolean ifMonsterDontExist = true;
         /*
         For printing out list
         */
         if (input.equalsIgnoreCase("List")) {
             System.out.println("You are carrying" + itemsCarried);
+        }
+        else if (input.equalsIgnoreCase("playerinfo")){
+            System.out.println("Here is the current player information: " );
+            System.out.println("Name: " + currentLayout.getPlayer()[0].getName());
+            System.out.println("Attack: " + currentLayout.getPlayer()[0].getAttack());
+            System.out.println("Defense: " + currentLayout.getPlayer()[0].getDefense());
+            System.out.println("Health: " + currentLayout.getPlayer()[0].getHealth());
+            System.out.println("Level: " + currentLayout.getPlayer()[0].getLevel());
         }
         /*
         Makes sure input has to be two words except List above
@@ -144,8 +154,21 @@ public class GameOn {
         /*
         For going directions
          */
+        else if (input.contains("duel".toLowerCase()) && current.getMonstersInRoom() != null) {
+            for (Monster monster : current.getMonstersInRoom()) {
 
-        else if (input.contains("go".toLowerCase())) {
+                if (input.contains("duel " + monster.getName().toLowerCase())){
+                    System.out.println("Duel in progress");
+                    currentRoom = current;
+                    ifMonsterDontExist = false;
+                }
+            }
+                if (ifMonsterDontExist) {
+                System.out.print("I can't duel " + secondTerm);
+                }
+        }
+
+        else if (input.contains("go".toLowerCase()) && currentRoom.getMonstersInRoom()== null) {  //can't leave room if there are monsters
             for (Direction direction : current.getDirections()) {
 
                 if (input.contains("go " + direction.getDirectionName().toLowerCase())) {

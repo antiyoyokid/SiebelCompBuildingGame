@@ -4,6 +4,8 @@ public class Layout {
     private String startingRoom;
     private String endingRoom;
     private Room[] rooms;
+    private Monster[] monsters;
+    private Player[] Player;
 
 
     public String getStartingRoom() {
@@ -16,5 +18,13 @@ public class Layout {
 
     public Room[] getRooms() {
         return rooms;
+    }
+
+    public Monster[] getMonsters() {
+        return monsters;
+    }
+
+    public Player[] getPlayer() {
+        return Player;
     }
 }

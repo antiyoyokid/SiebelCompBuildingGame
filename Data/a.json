@@ -1,7 +1,16 @@
 {
   "startingRoom": "MatthewsStreet",
   "endingRoom": "Siebel1314",
-  "monsters": ["Bluebuff","Redbuff", "Baron", "Dragon", "Wolves", "Raptor", "Krugs"],
+  "Player":[
+    {
+      "name": "Vayne",
+      "attack": 12,
+      "defense": 10,
+      "health": 1000,
+      "level": 1
+    }
+  ],
+
   "rooms": [
     {
       "name": "MatthewsStreet",
