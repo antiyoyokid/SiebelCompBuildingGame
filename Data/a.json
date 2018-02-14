@@ -23,6 +23,11 @@
           "attack": 20,
           "defense": 1,
           "health": 500
+        },
+        {"name": "teemo",
+          "attack": 900,
+          "defense": 1,
+          "health": 50
         }
       ],
       "directions": [
