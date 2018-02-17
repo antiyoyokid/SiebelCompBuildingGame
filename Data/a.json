@@ -6,7 +6,7 @@
       "name": "Vayne",
       "attack": 250,
       "defense": 10,
-      "health": 1000,
+      "health": 100,
       "level": 1
     }
   ],
@@ -25,9 +25,9 @@
           "health": 500
         },
         {"name": "teemo",
-          "attack": 900,
+          "attack": 101,
           "defense": 1,
-          "health": 50
+          "health": 900
         }
       ],
       "directions": [
@@ -47,9 +47,9 @@
       }],
       "monstersInRoom": [
         {"name": "Redbuff",
-          "attack": 20,
+          "attack": 10000000,
           "defense": "0",
-          "health": "50"
+          "health": "5000000000"
         }
       ],
       "directions": [
